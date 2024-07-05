@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_metadata=self.webpackChunkopen_metadata||[]).push([[6018],{96018:function(a,e,n){n.r(e),e.default=n.p+"data-governance.png"}}]);

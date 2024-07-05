@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_metadata=self.webpackChunkopen_metadata||[]).push([[1447],{41447:function(a,e,t){t.r(e),e.default=t.p+"data-insights.png"}}]);

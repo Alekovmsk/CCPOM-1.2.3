@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_metadata=self.webpackChunkopen_metadata||[]).push([[1498],{61498:function(e,a,n){n.r(a),a.default=n.p+"service-icon-generic.png"}}]);

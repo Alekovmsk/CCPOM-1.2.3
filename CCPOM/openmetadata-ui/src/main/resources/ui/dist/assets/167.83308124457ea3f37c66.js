@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_metadata=self.webpackChunkopen_metadata||[]).push([[167],{60167:function(a,e,t){t.r(e),e.default=t.p+"data-collaboration.png"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_metadata=self.webpackChunkopen_metadata||[]).push([[5011],{25011:function(e,a,t){t.r(a),a.default=t.p+"NewUIGlossary.png"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_metadata=self.webpackChunkopen_metadata||[]).push([[4060],{94060:function(e,a,s){s.r(a),a.default=s.p+"service-icon-sapsybaseiq2.png"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkopen_metadata=self.webpackChunkopen_metadata||[]).push([[19],{20019:function(e,a,n){n.r(a),a.default=n.p+"welcome-screen.png"}}]);

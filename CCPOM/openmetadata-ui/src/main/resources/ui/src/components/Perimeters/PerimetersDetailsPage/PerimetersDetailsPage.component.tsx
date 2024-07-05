@@ -1,0 +1,604 @@
+/*
+ *  Copyright 2023 Collate.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+import Icon from '@ant-design/icons';
+import { Button, Col, Dropdown, Row, Tabs, Tooltip, Typography } from 'antd';
+import ButtonGroup from 'antd/lib/button/button-group';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import { AxiosError } from 'axios';
+import classNames from 'classnames';
+import { cloneDeep, toString } from 'lodash';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { useTranslation } from 'react-i18next';
+import { useHistory, useParams } from 'react-router-dom';
+import { ReactComponent as EditIcon } from '../../../assets/svg/edit-new.svg';
+import { ReactComponent as PerimeterIcon } from '../../../assets/svg/ic-data-product.svg';
+import { ReactComponent as DeleteIcon } from '../../../assets/svg/ic-delete.svg';
+import { ReactComponent as VersionIcon } from '../../../assets/svg/ic-version.svg';
+import { ReactComponent as IconDropdown } from '../../../assets/svg/menu.svg';
+import { ReactComponent as StyleIcon } from '../../../assets/svg/style.svg';
+import { AssetSelectionModal } from '../../Assets/AssetsSelectionModal/AssetSelectionModal';
+import { ManageButtonItemLabel } from '../../common/ManageButtonContentItem/ManageButtonContentItem.component';
+import { DomainTabs } from '../../Domain/DomainPage.interface';
+import DocumentationTab from '../../Domain/DomainTabs/DocumentationTab/DocumentationTab.component';
+import { DocumentationEntity } from '../../Domain/DomainTabs/DocumentationTab/DocumentationTab.interface';
+import { EntityHeader } from '../../Entity/EntityHeader/EntityHeader.component';
+import EntitySummaryPanel from '../../Explore/EntitySummaryPanel/EntitySummaryPanel.component';
+import AssetsTabs, {
+  AssetsTabRef,
+} from '../../Glossary/GlossaryTerms/tabs/AssetsTabs.component';
+import { AssetsOfEntity } from '../../Glossary/GlossaryTerms/tabs/AssetsTabs.interface';
+import EntityDeleteModal from '../../Modals/EntityDeleteModal/EntityDeleteModal';
+import EntityNameModal from '../../Modals/EntityNameModal/EntityNameModal.component';
+import PageLayoutV1 from '../../PageLayoutV1/PageLayoutV1';
+import { usePermissionProvider } from '../../PermissionProvider/PermissionProvider';
+import {
+  OperationPermission,
+  ResourceEntity,
+} from '../../PermissionProvider/PermissionProvider.interface';
+import TabsLabel from '../../TabsLabel/TabsLabel.component';
+import { DE_ACTIVE_COLOR } from '../../../constants/constants';
+import { EntityField } from '../../../constants/Feeds.constants';
+import { EntityType } from '../../../enums/entity.enum';
+import { SearchIndex } from '../../../enums/search.enum';
+import {
+  ChangeDescription,
+  Perimeter,
+} from '../../../generated/entity/domains/perimeter';
+import { Domain } from '../../../generated/entity/domains/domain';
+import { Operation } from '../../../generated/entity/policies/policy';
+import { Style } from '../../../generated/type/tagLabel';
+import { QueryFilterInterface } from '../../../pages/ExplorePage/ExplorePage.interface';
+import { searchData } from '../../../rest/miscAPI';
+import { getEntityDeleteMessage } from '../../../utils/CommonUtils';
+import { getQueryFilterToIncludeDomain } from '../../../utils/DomainUtils';
+import { getEntityName } from '../../../utils/EntityUtils';
+import { getEntityVersionByField } from '../../../utils/EntityVersionUtils';
+import {
+  checkPermission,
+  DEFAULT_ENTITY_PERMISSION,
+} from '../../../utils/PermissionsUtils';
+import {
+  getPerimetersDetailsPath,
+  getPerimeterVersionsPath,
+  getDomainPath,
+} from '../../../utils/RouterUtils';
+import {
+  escapeESReservedCharacters,
+  getEncodedFqn,
+} from '../../../utils/StringsUtils';
+import { showErrorToast } from '../../../utils/ToastUtils';
+import { EntityDetailsObjectInterface } from '../../Explore/ExplorePage.interface';
+import StyleModal from '../../Modals/StyleModal/StyleModal.component';
+import './perimeters-details-page.less';
+import {
+  PerimetersDetailsPageProps,
+  PerimeterTabs,
+} from './PerimetersDetailsPage.interface';
+
+const PerimetersDetailsPage = ({
+  perimeter,
+  isVersionsView = false,
+  onUpdate,
+  onDelete,
+}: PerimetersDetailsPageProps) => {
+  const { t } = useTranslation();
+  const history = useHistory();
+  const { getEntityPermission, permissions } = usePermissionProvider();
+  const {
+    fqn,
+    tab: activeTab,
+    version,
+  } = useParams<{ fqn: string; tab: string; version: string }>();
+  const perimeterFqn = fqn ? decodeURIComponent(fqn) : '';
+  const [perimeterPermission, setPerimeterPermission] =
+    useState<OperationPermission>(DEFAULT_ENTITY_PERMISSION);
+  const [showActions, setShowActions] = useState(false);
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+  // const [assetModalVisible, setAssetModelVisible] = useState(false);
+  const [isNameEditing, setIsNameEditing] = useState<boolean>(false);
+  const [isStyleEditing, setIsStyleEditing] = useState(false);
+  // const assetTabRef = useRef<AssetsTabRef>(null);
+  // const [previewAsset, setPreviewAsset] =
+  //   useState<EntityDetailsObjectInterface>();
+  // const [assetCount, setAssetCount] = useState<number>(0);
+
+  const breadcrumbs = useMemo(() => {
+    if (!perimeter.domain) {
+      return [];
+    }
+
+    return [
+      {
+        name: getEntityName(perimeter.domain),
+        url: getDomainPath(perimeter.domain.fullyQualifiedName),
+        activeTitle: false,
+      },
+    ];
+  }, [perimeter.domain]);
+
+  const [name, displayName] = useMemo(() => {
+    const defaultName = perimeter.name;
+    const defaultDisplayName = perimeter.displayName;
+
+    if (isVersionsView) {
+      const updatedName = getEntityVersionByField(
+        perimeter.changeDescription as ChangeDescription,
+        EntityField.NAME,
+        defaultName
+      );
+      const updatedDisplayName = getEntityVersionByField(
+        perimeter.changeDescription as ChangeDescription,
+        EntityField.DISPLAYNAME,
+        defaultDisplayName
+      );
+
+      return [updatedName, updatedDisplayName];
+    } else {
+      return [defaultName, defaultDisplayName];
+    }
+  }, [perimeter, isVersionsView]);
+
+  const {
+    editDisplayNamePermission,
+    editAllPermission,
+    deletePerimeterPermision,
+  } = useMemo(() => {
+    if (isVersionsView) {
+      return {
+        editDescriptionPermission: false,
+        editOwnerPermission: false,
+        editAllPermission: false,
+      };
+    }
+
+    const editDescription = checkPermission(
+      Operation.EditDescription,
+      ResourceEntity.DATA_PRODUCT,
+      permissions
+    );
+
+    const editOwner = checkPermission(
+      Operation.EditOwner,
+      ResourceEntity.DATA_PRODUCT,
+      permissions
+    );
+
+    const editAll = checkPermission(
+      Operation.EditAll,
+      ResourceEntity.DATA_PRODUCT,
+      permissions
+    );
+
+    const editDisplayName = checkPermission(
+      Operation.EditDisplayName,
+      ResourceEntity.DATA_PRODUCT,
+      permissions
+    );
+
+    const deletePerimeter = checkPermission(
+      Operation.Delete,
+      ResourceEntity.DATA_PRODUCT,
+      permissions
+    );
+
+    return {
+      editDescriptionPermission: editDescription || editAll,
+      editOwnerPermission: editOwner || editAll,
+      editAllPermission: editAll,
+      editDisplayNamePermission: editDisplayName || editAll,
+      deletePerimeterPermision: deletePerimeter,
+    };
+  }, [permissions, isVersionsView]);
+
+  // const fetchPerimeterAssets = async () => {
+  //   if (perimeter) {
+  //     try {
+  //       const encodedFqn = getEncodedFqn(
+  //         escapeESReservedCharacters(perimeter.fullyQualifiedName)
+  //       );
+  //       const res = await searchData(
+  //         '',
+  //         1,
+  //         0,
+  //         `(perimeters.fullyQualifiedName:"${encodedFqn}")`,
+  //         '',
+  //         '',
+  //         SearchIndex.ALL
+  //       );
+
+  //       setAssetCount(res.data.hits.total.value ?? 0);
+  //     } catch (error) {
+  //       setAssetCount(0);
+  //     }
+  //   }
+  // };
+
+  const fetchPerimeterPermission = useCallback(async () => {
+    try {
+      const response = await getEntityPermission(
+        ResourceEntity.DATA_PRODUCT,
+        perimeter.id
+      );
+      setPerimeterPermission(response);
+    } catch (error) {
+      showErrorToast(error as AxiosError);
+    }
+  }, [perimeter]);
+
+  const manageButtonContent: ItemType[] = [
+    ...(editDisplayNamePermission
+      ? ([
+          {
+            label: (
+              <ManageButtonItemLabel
+                description={t('message.rename-entity', {
+                  entity: t('label.perimeter'),
+                })}
+                icon={<EditIcon color={DE_ACTIVE_COLOR} width="18px" />}
+                id="rename-button"
+                name={t('label.rename')}
+              />
+            ),
+            key: 'rename-button',
+            onClick: (e) => {
+              e.domEvent.stopPropagation();
+              setIsNameEditing(true);
+              setShowActions(false);
+            },
+          },
+        ] as ItemType[])
+      : []),
+    ...(editAllPermission
+      ? ([
+          {
+            label: (
+              <ManageButtonItemLabel
+                description={t('message.edit-entity-style-description', {
+                  entity: t('label.perimeter'),
+                })}
+                icon={<StyleIcon color={DE_ACTIVE_COLOR} width="18px" />}
+                id="rename-button"
+                name={t('label.style')}
+              />
+            ),
+            key: 'edit-style-button',
+            onClick: (e) => {
+              e.domEvent.stopPropagation();
+              setIsStyleEditing(true);
+              setShowActions(false);
+            },
+          },
+        ] as ItemType[])
+      : []),
+    ...(deletePerimeterPermision
+      ? ([
+          {
+            label: (
+              <ManageButtonItemLabel
+                description={t(
+                  'message.delete-entity-type-action-description',
+                  {
+                    entityType: t('label.perimeter'),
+                  }
+                )}
+                icon={<DeleteIcon color={DE_ACTIVE_COLOR} width="14px" />}
+                id="delete-button"
+                name={t('label.delete')}
+              />
+            ),
+            key: 'delete-button',
+            onClick: (e) => {
+              e.domEvent.stopPropagation();
+              setIsDelete(true);
+              setShowActions(false);
+            },
+          },
+        ] as ItemType[])
+      : []),
+  ];
+
+  // const handleAssetSave = () => {
+  //   fetchPerimeterAssets();
+  //   assetTabRef.current?.refreshAssets();
+  // };
+
+  const onNameSave = (obj: { name: string; displayName: string }) => {
+    if (perimeter) {
+      const { displayName } = obj;
+      let updatedDetails = cloneDeep(perimeter);
+
+      updatedDetails = {
+        ...perimeter,
+        displayName: displayName?.trim(),
+      };
+
+      onUpdate(updatedDetails);
+      setIsNameEditing(false);
+    }
+  };
+
+  const onStyleSave = (data: Style) => {
+    const style: Style = {
+      // if color/iconURL is empty or undefined send undefined
+      color: data.color ? data.color : undefined,
+      iconURL: data.iconURL ? data.iconURL : undefined,
+    };
+    const updatedDetails = {
+      ...perimeter,
+      style,
+    };
+
+    onUpdate(updatedDetails);
+    setIsStyleEditing(false);
+  };
+
+  // const handleTabChange = (activeKey: string) => {
+  //   if (activeKey === 'assets') {
+  //     // refresh perimeters assets count when assets tab is selected
+  //     fetchPerimeterAssets();
+  //   }
+  //   if (activeKey !== activeTab) {
+  //     history.push(getPerimetersDetailsPath(fqn, activeKey));
+  //   }
+  // };
+
+  const handleVersionClick = async () => {
+    const path = isVersionsView
+      ? getPerimetersDetailsPath(fqn)
+      : getPerimeterVersionsPath(fqn, toString(perimeter.version));
+
+    history.push(path);
+  };
+
+  // const handleAssetClick = useCallback((asset) => {
+  //   setPreviewAsset(asset);
+  // }, []);
+
+  const tabs = useMemo(() => {
+    return [
+      {
+        label: (
+          <TabsLabel
+            id={PerimeterTabs.DOCUMENTATION}
+            name={t('label.documentation')}
+          />
+        ),
+        key: PerimeterTabs.DOCUMENTATION,
+        children: (
+          <DocumentationTab
+            domain={perimeter}
+            isVersionsView={isVersionsView}
+            type={DocumentationEntity.PERIMETER}
+            onUpdate={(data: Domain | Perimeter) =>
+              onUpdate(data as Perimeter)
+            }
+          />
+        ),
+      },
+      // ...(!isVersionsView
+      //   ? [
+      //       {
+      //         label: (
+      //           <TabsLabel
+      //             count={assetCount ?? 0}
+      //             id={PerimeterTabs.ASSETS}
+      //             isActive={activeTab === PerimeterTabs.ASSETS}
+      //             name={t('label.asset-plural')}
+      //           />
+      //         ),
+      //         key: PerimeterTabs.ASSETS,
+      //         children: (
+      //           <PageLayoutV1
+      //             className="perimeter-asset-page-layout"
+      //             pageTitle={t('label.domain')}
+      //             rightPanel={
+      //               previewAsset && (
+      //                 <EntitySummaryPanel
+      //                   entityDetails={previewAsset}
+      //                   handleClosePanel={() => setPreviewAsset(undefined)}
+      //                 />
+      //               )
+      //             }
+      //             rightPanelWidth={400}>
+      //             <AssetsTabs
+      //               assetCount={assetCount}
+      //               entityFqn={perimeter.fullyQualifiedName}
+      //               isSummaryPanelOpen={false}
+      //               permissions={perimeterPermission}
+      //               ref={assetTabRef}
+      //               type={AssetsOfEntity.PERIMETER}
+      //               onAddAsset={() => setAssetModelVisible(true)}
+      //               onAssetClick={handleAssetClick}
+      //               onRemoveAsset={handleAssetSave}
+      //             />
+      //           </PageLayoutV1>
+      //         ),
+      //       },
+      //     ]
+      //   : []),
+    ];
+  }, [
+    perimeterPermission,
+    // previewAsset,
+    perimeter,
+    isVersionsView,
+    // handleAssetSave,
+    // assetCount,
+    activeTab,
+  ]);
+
+  useEffect(() => {
+    fetchPerimeterPermission();
+    // fetchPerimeterAssets();
+  }, [perimeterFqn]);
+
+  return (
+    <>
+      <Row
+        className="perimeter-details"
+        data-testid="perimeter-details"
+        gutter={[0, 12]}>
+        <Col className="p-x-md" flex="auto">
+          <EntityHeader
+            breadcrumb={breadcrumbs}
+            entityData={{ ...perimeter, displayName, name }}
+            entityType={EntityType.PERIMETER}
+            icon={
+              perimeter.style?.iconURL ? (
+                <img
+                  className="align-middle"
+                  data-testid="icon"
+                  height={36}
+                  src={perimeter.style.iconURL}
+                  width={32}
+                />
+              ) : (
+                <PerimeterIcon
+                  className="align-middle"
+                  color={DE_ACTIVE_COLOR}
+                  height={36}
+                  name="folder"
+                  width={32}
+                />
+              )
+            }
+            serviceName=""
+            titleColor={perimeter.style?.color}
+          />
+        </Col>
+        <Col className="p-x-md" flex="320px">
+          <div style={{ textAlign: 'right' }}>
+            {/* {!isVersionsView && perimeterPermission.Create && (
+              <Button
+                data-testid="perimeter-details-add-button"
+                type="primary"
+                onClick={() => setAssetModelVisible(true)}>
+                {t('label.add-entity', {
+                  entity: t('label.asset-plural'),
+                })}
+              </Button>
+            )} */}
+
+            <ButtonGroup className="p-l-xs" size="small">
+              {perimeter?.version && (
+                <Button
+                  className={classNames('', {
+                    'text-primary border-primary': version,
+                  })}
+                  data-testid="version-button"
+                  icon={<Icon component={VersionIcon} />}
+                  onClick={handleVersionClick}>
+                  <Typography.Text
+                    className={classNames('', {
+                      'text-primary': version,
+                    })}>
+                    {toString(perimeter.version)}
+                  </Typography.Text>
+                </Button>
+              )}
+
+              {!isVersionsView && manageButtonContent.length > 0 && (
+                <Dropdown
+                  align={{ targetOffset: [-12, 0] }}
+                  className="m-l-xs"
+                  menu={{
+                    items: manageButtonContent,
+                  }}
+                  open={showActions}
+                  overlayClassName="domain-manage-dropdown-list-container"
+                  overlayStyle={{ width: '350px' }}
+                  placement="bottomRight"
+                  trigger={['click']}
+                  onOpenChange={setShowActions}>
+                  <Tooltip placement="right">
+                    <Button
+                      className="domain-manage-dropdown-button tw-px-1.5"
+                      data-testid="manage-button"
+                      icon={
+                        <IconDropdown className="vertical-align-inherit manage-dropdown-icon" />
+                      }
+                      onClick={() => setShowActions(true)}
+                    />
+                  </Tooltip>
+                </Dropdown>
+              )}
+            </ButtonGroup>
+          </div>
+        </Col>
+
+        <Col span={24}>
+          <Tabs
+            destroyInactiveTabPane
+            activeKey={activeTab ?? DomainTabs.DOCUMENTATION}
+            className="domain-details-page-tabs"
+            data-testid="tabs"
+            items={tabs}
+            // onChange={handleTabChange}
+          />
+        </Col>
+      </Row>
+
+      <EntityNameModal
+        entity={perimeter}
+        title={t('label.edit-entity', {
+          entity: t('label.display-name'),
+        })}
+        visible={isNameEditing}
+        onCancel={() => setIsNameEditing(false)}
+        onSave={onNameSave}
+      />
+      <EntityDeleteModal
+        bodyText={getEntityDeleteMessage(perimeter.name, '')}
+        entityName={perimeter.name}
+        entityType="Glossary"
+        loadingState="success"
+        visible={isDelete}
+        onCancel={() => setIsDelete(false)}
+        onConfirm={onDelete}
+      />
+
+      {/* {assetModalVisible && (
+        <AssetSelectionModal
+          emptyPlaceHolderText={t('message.domain-does-not-have-assets', {
+            name: getEntityName(perimeter.domain),
+          })}
+          entityFqn={perimeterFqn}
+          open={assetModalVisible}
+          queryFilter={
+            getQueryFilterToIncludeDomain(
+              perimeter.domain?.fullyQualifiedName ?? '',
+              perimeter.fullyQualifiedName ?? ''
+            ) as QueryFilterInterface
+          }
+          type={AssetsOfEntity.PERIMETER}
+          onCancel={() => setAssetModelVisible(false)}
+          onSave={handleAssetSave}
+        />
+      )} */}
+      <StyleModal
+        open={isStyleEditing}
+        style={perimeter.style}
+        onCancel={() => setIsStyleEditing(false)}
+        onSubmit={onStyleSave}
+      />
+    </>
+  );
+};
+
+export default PerimetersDetailsPage;

@@ -1,0 +1,200 @@
+/*
+ *  Copyright 2022 Collate.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+import Icon from '@ant-design/icons';
+import { Card, Space, Tooltip, Typography } from 'antd';
+import { t } from 'i18next';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useHistory } from 'react-router';
+import { ReactComponent as CommentIcon } from '../../../assets/svg/comment.svg';
+import { ReactComponent as EditIcon } from '../../../assets/svg/edit-new.svg';
+import { ReactComponent as RequestIcon } from '../../../assets/svg/request-icon.svg';
+import { DE_ACTIVE_COLOR } from '../../../constants/constants';
+import { EntityField } from '../../../constants/Feeds.constants';
+import { EntityType } from '../../../enums/entity.enum';
+import { Table } from '../../../generated/entity/data/table';
+import { getEntityFeedLink } from '../../../utils/EntityUtils';
+import {
+  getRequestDescriptionPath,
+  getUpdateDescriptionPath,
+  TASK_ENTITIES,
+} from '../../../utils/TasksUtils';
+import { ModalWithEditorJs } from '../../Modals/ModalWithEditorJs/ModalWithEditorJs';
+import KnowledgeCenterEditor from '../KnowledgeCenterEditor/KnowledgeCenterEditor';
+const { Text } = Typography;
+
+interface Props {
+  entityName?: string;
+  owner?: Table['owner'];
+  hasEditAccess?: boolean;
+  removeBlur?: boolean;
+  description?: string;
+  isEdit?: boolean;
+  isReadOnly?: boolean;
+  entityType: EntityType;
+  entityFqn?: string;
+  onThreadLinkSelect?: (value: string) => void;
+  onDescriptionEdit?: () => void;
+  onCancel?: () => void;
+  onDescriptionUpdate?: (value: string) => Promise<void>;
+  onSuggest?: (value: string) => void;
+  onEntityFieldSelect?: (value: string) => void;
+  wrapInCard?: boolean;
+  showActions?: boolean;
+  showCommentsIcon?: boolean;
+  reduceDescription?: boolean;
+}
+const DescriptionEditorJsV1 = ({
+  hasEditAccess,
+  onDescriptionEdit,
+  description = '',
+  isEdit,
+  onCancel,
+  onDescriptionUpdate,
+  isReadOnly = false,
+  removeBlur = false,
+  entityName,
+  onThreadLinkSelect,
+  entityType,
+  entityFqn,
+  wrapInCard = false,
+  showActions = true,
+  showCommentsIcon = true,
+  reduceDescription,
+}: Props) => {
+  const isJsonString = (str: string) => {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+  const history = useHistory();
+  const [data, setData] = useState(isJsonString(description) ? JSON.parse(description) : undefined);
+
+  const handleRequestDescription = useCallback(() => {
+    history.push(
+      getRequestDescriptionPath(entityType as string, entityFqn as string)
+    );
+  }, [entityType, entityFqn]);
+
+  const handleUpdateDescription = useCallback(() => {
+    history.push(
+      getUpdateDescriptionPath(entityType as string, entityFqn as string)
+    );
+  }, [entityType, entityFqn]);
+
+  const entityLink = useMemo(
+    () => getEntityFeedLink(entityType, entityFqn, EntityField.DESCRIPTION),
+    [entityType, entityFqn]
+  );
+  const editorJsRef = React.useRef({})
+
+  const taskActionButton = useMemo(() => {
+    const hasDescription = Boolean(description.trim());
+
+    const isTaskEntity = TASK_ENTITIES.includes(entityType as EntityType);
+
+    if (!isTaskEntity) {
+      return null;
+    }
+
+    return (
+      <Tooltip
+        title={
+          hasDescription
+            ? t('message.request-update-description')
+            : t('message.request-description')
+        }>
+        <Icon
+          component={RequestIcon}
+          data-testid="request-description"
+          style={{ color: DE_ACTIVE_COLOR }}
+          onClick={
+            hasDescription ? handleUpdateDescription : handleRequestDescription
+          }
+        />
+      </Tooltip>
+    );
+  }, [
+    description,
+    entityType,
+    handleUpdateDescription,
+    handleRequestDescription,
+  ]);
+
+  const actionButtons = useMemo(
+    () => (
+      <Space size={12}>
+        {!isReadOnly && hasEditAccess && (
+          <Icon
+            component={EditIcon}
+            data-testid="edit-description"
+            style={{ color: DE_ACTIVE_COLOR }}
+            onClick={onDescriptionEdit}
+          />
+        )}
+        {taskActionButton}
+        {showCommentsIcon && (
+          <Icon
+            component={CommentIcon}
+            data-testid="description-thread"
+            style={{ color: DE_ACTIVE_COLOR }}
+            width={20}
+            onClick={() => {
+              onThreadLinkSelect?.(entityLink);
+            }}
+          />
+        )}
+      </Space>
+    ),
+    [
+      isReadOnly,
+      hasEditAccess,
+      onDescriptionEdit,
+      taskActionButton,
+      showCommentsIcon,
+      onThreadLinkSelect,
+    ]
+  );
+
+  const content = (
+    <Space
+      className="schema-description d-flex"
+      data-testid="asset-description-container"
+      direction="vertical"
+      size={16}>
+      <Space size="middle">
+        <Text className="right-panel-label">{t('label.description')}</Text>
+        {showActions && actionButtons}
+      </Space>
+      <div>
+          <KnowledgeCenterEditor data={data} setData={setData} readOnly={true} editorJsRef={editorJsRef} />
+        <ModalWithEditorJs
+          header={t('label.edit-description-for', { entityName })}
+          value={description}
+          visible={Boolean(isEdit)}
+          onCancel={onCancel}
+          onSave={onDescriptionUpdate}
+          rerenderMainEditorJs={editorJsRef.current.rerender}
+        />
+        
+      </div>
+    </Space>
+  );
+
+  return wrapInCard ? <Card>{content}</Card> : content;
+};
+
+export default DescriptionEditorJsV1;
