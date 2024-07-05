@@ -1,0 +1,10 @@
+{
+  "name": "KPI",
+  "displayName": "KPI KnowledgePanel",
+  "description": "Виджет \"KPI\" отображает ключевые показатели эффективности организации по описанию и охвату владельцев.",
+  "entityType": "KnowledgePanel",
+  "fullyQualifiedName": "KnowledgePanel.KPI",
+  "data": {
+    "gridSizes": ["small", "medium"]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/domains/createPerimeter.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreatePerimeterRequest",
+  "description": "Create Perimeter API request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.domains.CreatePerimeter",
+  "javaInterfaces": [
+    "org.openmetadata.schema.CreateEntity"
+  ],
+  "properties": {
+    "name": {
+      "description": "A unique name of the Perimeter",
+      "$ref": "../../type/basic.json#/definitions/entityName"
+    },
+    "fullyQualifiedName": {
+      "description": "FullyQualifiedName of the Domain.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Name used for display purposes. Example 'Customer Churn', 'Sentiment Analysis', etc.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Attribute.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "entityList": {
+      "description": "List of entities in this domain perimeter",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/domains/perimeter.json#/definitions/entityEl"
+      }
+    },
+    "style": {
+      "$ref": "../../type/basic.json#/definitions/style"
+    },
+    "owner": {
+      "description": "Owner of this Perimeter.",
+      "$ref": "../../type/entityReference.json",
+      "default": null
+    },
+    "domain": {
+      "description": "Fully qualified name of the Domain the Perimeter belongs to.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName",
+      "default": null
+    },
+    "experts": {
+      "description": "List of user/login names of users who are experts in this Perimeter.",
+      "type" : "array",
+      "items": {
+        "type": "string"
+      },
+      "default": null
+    }
+  },
+  "required": [
+    "name",
+    "description"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Недавно просмотренные",
+  "displayName": "Recently Viewed",
+  "description": "Виджет \"Недавно просмотренные\" отображает список ресурсов данных, которые посетил пользователь.",
+  "entityType": "KnowledgePanel",
+  "fullyQualifiedName": "KnowledgePanel.RecentlyViewed",
+  "data": {
+    "gridSizes": ["small"]
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/spdClassification/spd.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "spd",
+  "description": "A `spd` entity is used for spd classification or categorization. It is a term defined under `spdClassification` entity. Spds are used to label the entities and entity fields, such as Tables, and Columns.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.spdClassification.Spd",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "definitions": {
+    
+    "spdName": {
+      "description": "Name of the spd.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64,
+      "pattern": "^(?U)[\\w'\\- .&()]+$"
+    },
+    "spdIndicator": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "description": "Indicator number",
+          "type": "string"
+        },
+        "index": {
+          "description": "Indicator index",
+          "type": "string"
+        },
+        "description": {
+          "description": "Indicator description",
+          "type": "string"
+        },
+        "targetValue": {
+          "description": "Indicator target Value",
+          "type": "string"
+        },
+        "weight": {
+          "description": "Indicator weight",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "spdMember": {
+      "type": "object",
+      "properties": {
+        "memberType": {
+          "description": "spdMember type",
+          "type": "string"
+        },
+        "memberNumber": {
+          "description": "spdMember number",
+          "type": "string"
+        },
+        "memberName": {
+          "description": "spdMember name",
+          "type": "string"
+        },
+        "memberShortName": {
+          "description": "spdMember short name",
+          "type": "string"
+        },
+        "memberShortDescription": {
+          "description": "spdMember short name",
+          "type": "string"
+        },
+        "memberOwner": {
+          "description": "spdMember Owner",
+          "type": "string"
+        },
+        "memberManager": {
+          "description": "spdMember Manager",
+          "type": "string"
+        },
+        "memberDomainAttribute": {
+          "description": "spdMember Domain Attribute",
+          "type" : "boolean",
+          "default" : "false"
+        },
+        "memberDomainName": {
+          "description": "member DomainName",
+          "type": "string"
+        },
+        "memberDomainShortName": {
+          "description": "member Domain Short Name",
+          "type": "string"
+        },
+        "memberDomainShortDescription": {
+          "description": "member Domain Short Description",
+          "type": "string"
+        },
+        "memberDomainOwner": {
+          "description": "member Domain Owner",
+          "type": "string"
+        },
+        "memberDomainTechLeader": {
+          "description": "member Domain Technical Leader",
+          "type": "string"
+        }
+
+      },
+      "additionalProperties": false
+    },
+    "spdRequirement": {
+      "type": "object",
+      "properties": {
+        "reqNumber": {
+          "description": "Requirement number",
+          "type": "string"
+        },
+        "reqDescription": {
+          "description": "Requirement description",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+
+  },
+  "properties": {
+    "id": {
+      "description": "Unique identifier of this entity instance.",
+      "$ref": "../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "Name of the spd.",
+      "$ref": "#/definitions/spdName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this spd.",
+      "type": "string"
+    },
+    "fullyQualifiedName": {
+      "description": "Unique name of the spd of format `spdClassification.spd1.spd2`.",
+      "type": "string"
+    },
+    "description": {
+      "description": "description of connection technology.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "docNumber": {
+      "description": "doc number",
+      "type": "string"
+    },
+    "docType": {
+      "description": "doc type",
+      "type": "string"
+    },
+    "conclusionDate": {
+      "description": "conclusion date",
+      "$ref": "../../type/basic.json#/definitions/date"
+    },
+    "expirationDate": {
+      "description": "expiration date",
+      "type": "string"
+    },
+    "validity": {
+      "description": "validity",
+      "type": "string"
+    },
+    "prolongation": {
+      "description": "prolongation",
+      "type" : "boolean",
+      "default" : "false"
+    },
+    "domainData": {
+      "description": "domain data",
+      "type": "string"
+    },
+    "consumer": {
+      "description": "consumer",
+      "type": "string"
+    },
+    "docStatus": {
+      "description": "status",
+      "type": "string"
+    },
+    "members": {
+      "description": "members",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/spdClassification/spd.json#/definitions/spdMember"
+      }
+    },
+    "autoSystemProvider": {
+      "description": "autoSystemProvider",
+      "type": "string"
+    },
+    "autoSystemOwnerFullName": {
+      "description": "autoSystenOwnerFullName",
+      "type": "string"
+    },
+    "autoSystemOwnerPhone": {
+      "description": "AutoSystenOwnerPhone",
+      "type": "string"
+    },
+    "autoSystemOwnerEmail": {
+      "description": "AutoSystenOwnerEmail",
+      "type": "string"
+    },
+    "productManagerFullName": {
+      "description": "productManagerFullName",
+      "type": "string"
+    },
+    "productManagerPhone": {
+      "description": "productManagerPhone",
+      "type": "string"
+    },
+    "productManagerEmail": {
+      "description": "productManagerEmail",
+      "type": "string"
+    },
+    "owner": {
+      "description": "Data provider of this spd.",
+      "$ref": "../../type/entityReference.json",
+      "default": null
+    },
+    "connectionParameters": {
+      "description": "connection Parameters",
+      "type": "string"
+    },
+    "connectionModes": {
+      "description": "connection modes, time parameters for data provision",
+      "type": "string"
+    },
+    "otherParameters": {
+      "description": "other parameters requiring explicit indication",
+      "type": "string"
+    },
+    "requirements": {
+      "description": "requirements",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/spdClassification/spd.json#/definitions/spdRequirement"
+      }
+    },
+    "indicators": {
+      "description": "indicators",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/spdClassification/spd.json#/definitions/spdIndicator"
+      }
+    },
+    "reportingType": {
+      "description": "Reporting Type",
+      "type": "string"
+    },
+    "reportingPeriodicity": {
+      "description": "Reporting Periodicity",
+      "type": "string"
+    },
+    "reportingFormationMode": {
+      "description": "Reporting Fromation Mode",
+      "type": "string"
+    },
+    "reportingHref": {
+      "description": "Reporting link",
+      "type": "string"
+    },
+    "style": {
+      "$ref": "../../type/basic.json#/definitions/style"
+    },
+    "spdClassification": {
+      "description": "Reference to the spd classification that this spd is part of.",
+      "$ref": "../../type/entityReference.json"
+    },
+    "parent": {
+      "description": "Reference to the parent spd. When null, the term is at the root of the spd Classification.",
+      "$ref": "../../type/entityReference.json"
+    },
+    "children": {
+      "description": "Children spds under this spd.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to the spd.",
+      "$ref": "../../type/basic.json#/definitions/href"
+    },
+    "usageCount": {
+      "description": "Count of how many times this spd and children spds are used.",
+      "type": "integer"
+    },
+    "deprecated": {
+      "description": "If the spd is deprecated.",
+      "type": "boolean",
+      "default": false
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "provider": {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "disabled": {
+      "description": "System spds can't be deleted. Use this flag to disable them.",
+      "type": "boolean"
+    },
+    "mutuallyExclusive": {
+      "description": "Children spds under this group are mutually exclusive. When mutually exclusive is `true` the spds from this group are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the spds from this group are used to **categorize** an entity. An entity can be in multiple categories simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type": "boolean",
+      "default": "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

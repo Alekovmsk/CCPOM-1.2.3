@@ -1,0 +1,177 @@
+{
+    "$id": "https://open-metadata.org/schema/entity/data/knowledgeCenterDocument.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "KnowledgeCenterDocument",
+    "description": "This schema defines te Knowledge center document entities.",
+    "$comment": "@om-entity-type",
+    "type": "object",
+    "javaType": "org.openmetadata.schema.entity.data.KnowledgeCenterDocument",
+    "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+    "definitions": {
+      "documentReference": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name that identifies the source of an external knowledge center document. Example `HealthCare.gov`.",
+            "type": "string"
+          },
+          "endpoint": {
+            "description": "Name that identifies the source of an external knowledge center document. Example `HealthCare.gov`.",
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": {
+        "type": "string",
+        "enum": ["Draft", "Approved", "Deprecated", "Rejected"]
+      }
+    },
+    "properties": {
+      "id": {
+        "description": "Unique identifier of a knowledge center document instance.",
+        "$ref": "../../type/basic.json#/definitions/uuid"
+      },
+      "name": {
+        "description": "Preferred name for the knowledge center document.",
+        "$ref": "../../type/basic.json#/definitions/entityName"
+      },
+      "displayName": {
+        "description": "Display Name that identifies this glossary.",
+        "type": "string"
+      },
+      "description": {
+        "description": "Description of the knowledge center document.",
+        "$ref": "../../type/basic.json#/definitions/markdown"
+      },
+      "agreementType": {
+        "description": "Agreement's type",
+        "type": "string"
+      },
+      "agreementOperator": {
+        "description": "Agreement's operator.",
+        "type": "string"
+      },
+      "agreementContact": {
+        "description": "Agreement contact",
+        "type": "string"
+      },
+      "agreementValidity": {
+        "description": "Agreement validity",
+        "type": "string"
+      },
+      "style": {
+        "$ref": "../../type/basic.json#/definitions/style"
+      },
+      "fullyQualifiedName": {
+        "description": "A unique name that identifies a knowledge center document. It captures name hierarchy of glossary of documents in the form of `glossaryName.parentDocument.childDocument`.",
+        "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+      },
+      "synonyms": {
+        "description": "Alternate names that are synonyms or near-synonyms for the knowledge center document.",
+        "type": "array",
+        "items": {
+          "$ref": "../../type/basic.json#/definitions/entityName"
+        }
+      },
+      "knowledgeCenter": {
+        "description": "Knowledge center that this document belongs to.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "parent": {
+        "description": "Parent knowledge center document that this document is child of. When `null` this document is the root document of the glossary.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "children": {
+        "description": "Other knowledge center documents that are children of this knowledge center document.",
+        "$ref": "../../type/entityReferenceList.json"
+      },
+      "relatedDocuments": {
+        "description": "Other knowledge center documents that are related to this knowledge center document.",
+        "$ref": "../../type/entityReferenceList.json"
+      },
+      "references": {
+        "description": "Link to a reference from an external glossary.",
+        "type": "array",
+        "items": {
+          "$ref": "../../entity/data/knowledgeCenterDocument.json#/definitions/documentReference"
+        }
+      },
+      "version": {
+        "description": "Metadata version of the entity.",
+        "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+      },
+      "updatedAt": {
+        "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+        "$ref": "../../type/basic.json#/definitions/timestamp"
+      },
+      "updatedBy": {
+        "description": "User who made the update.",
+        "type": "string"
+      },
+      "href": {
+        "description": "Link to the resource corresponding to this entity.",
+        "$ref": "../../type/basic.json#/definitions/href"
+      },
+      "reviewers": {
+        "description": "User names of the reviewers for this glossary.",
+        "$ref": "../../type/entityReferenceList.json"
+      },
+      "owner": {
+        "description": "Owner of this knowledge center document.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "usageCount": {
+        "description": "Count of how many times this and it's children knowledge center documents are used as labels.",
+        "type": "integer"
+      },
+      "tags": {
+        "description": "Tags associated with this knowledge center document. These tags captures relationship of a knowledge center document with a tag automatically. As an example a knowledge center document 'User.PhoneNumber' might have an associated tag 'PII.Sensitive'. When 'User.Address' is used to label a column in a table, 'PII.Sensitive' label is also applied automatically due to Associated tag relationship.",
+        "type": "array",
+        "items": {
+          "$ref": "../../type/tagLabel.json"
+        },
+        "default": null
+      },
+      "changeDescription": {
+        "description": "Change that lead to this version of the entity.",
+        "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+      },
+      "status": {
+        "description": "Status of the knowledge center document.",
+        "$ref": "#/definitions/status"
+      },
+      "deleted": {
+        "description": "When `true` indicates the entity has been soft deleted.",
+        "type": "boolean",
+        "default": false
+      },
+      "provider" : {
+        "$ref": "../../type/basic.json#/definitions/providerType"
+      },
+      "disabled" : {
+        "description": "System glossary can't be deleted. Use this flag to disable them.",
+        "type": "boolean"
+      },
+      "mutuallyExclusive" : {
+        "description" : "Knowledge center documents that are children of this document are mutually exclusive. When mutually exclusive is `true` only one document can be used to label an entity from this group. When mutually exclusive is `false`, multiple documents from this group can be used to label an entity.",
+        "type" : "boolean",
+        "default" : "false"
+      },
+      "extension": {
+        "description": "Entity extension data with custom attributes added to the entity.",
+        "$ref": "../../type/basic.json#/definitions/entityExtension"
+      },
+      "domain" : {
+        "description": "Domain the Knowledge center document belongs to. When not set, the Glossary TErm inherits the domain from the Knowledge center it belongs to.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "votes" : {
+        "$ref": "../../type/votes.json"
+      }
+    },
+    "required": ["id", "name", "description", "knowledgeCenter"],
+    "additionalProperties": false
+  }
+  

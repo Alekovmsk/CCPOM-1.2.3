@@ -1,0 +1,152 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/userEskClassification/userEsk.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "userEsk",
+  "description": "A `userEsk` entity is used for userEsk classification or categorization. It is a term defined under `userEskClassification` entity. UserEsks are used to label the entities and entity fields, such as Tables, and Columns.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.userEskClassification.UserEsk",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "definitions": {
+    
+    "userEskName": {
+      "description": "Name of the userEsk.",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 64,
+      "pattern": "^(?U)[\\w'\\- .&()]+$"
+    }
+  },
+  "properties": {
+    "id": {
+      "description": "Unique identifier of this entity instance.",
+      "$ref": "../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "Name of the userEsk.",
+      "$ref": "#/definitions/userEskName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this userEsk.",
+      "type": "string"
+    },
+    "fullyQualifiedName": {
+      "description": "Unique name of the userEsk of format `userEskClassification.userEsk1.userEsk2`.",
+      "type": "string"
+    },
+    "description": {
+      "description": "description of connection technology.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "lastName": {
+      "description": "last name",
+      "type": "string"
+    },
+    "firstName": {
+      "description": "first name",
+      "type": "string"
+    },
+    "middleName": {
+      "description": "middle name",
+      "type": "string"
+    },
+    "email": {
+      "description": "user email",
+      "type": "string"
+    },
+    "userName": {
+      "description": "user name",
+      "type": "string"
+    },
+    "fullName": {
+      "description": "full name",
+      "type": "string"
+    },
+    "phoneNumber": {
+      "description": "phone number",
+      "type": "string"
+    },
+    "jobTitle": {
+      "description": "users job title",
+      "type": "string"
+    },
+    "department": {
+      "description": "department",
+      "type": "string"
+    },
+    "isActive": {
+      "description": "is user active",
+      "type": "string"
+    },
+    "createTimestamp": {
+      "description": "create timestamp",
+      "type": "string"
+    },
+    "modifyTimestamp": {
+      "description": "modify timestamp",
+      "type": "string"
+    },
+    "style": {
+      "$ref": "../../type/basic.json#/definitions/style"
+    },
+    "userEskClassification": {
+      "description": "Reference to the userEsk classification that this userEsk is part of.",
+      "$ref": "../../type/entityReference.json"
+    },
+    "parent": {
+      "description": "Reference to the parent userEsk. When null, the term is at the root of the userEsk Classification.",
+      "$ref": "../../type/entityReference.json"
+    },
+    "children": {
+      "description": "Children userEsks under this userEsk.",
+      "$ref": "../../type/entityReferenceList.json"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to the userEsk.",
+      "$ref": "../../type/basic.json#/definitions/href"
+    },
+    "usageCount": {
+      "description": "Count of how many times this userEsk and children userEsks are used.",
+      "type": "integer"
+    },
+    "deprecated": {
+      "description": "If the userEsk is deprecated.",
+      "type": "boolean",
+      "default": false
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "provider": {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "disabled": {
+      "description": "System userEsks can't be deleted. Use this flag to disable them.",
+      "type": "boolean"
+    },
+    "mutuallyExclusive": {
+      "description": "Children userEsks under this group are mutually exclusive. When mutually exclusive is `true` the userEsks from this group are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the userEsks from this group are used to **categorize** an entity. An entity can be in multiple categories simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type": "boolean",
+      "default": "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

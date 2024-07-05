@@ -1,0 +1,22 @@
+{
+  "$id": "https://open-metadata.org/schema/api/dlaClassification/loadDlas.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "loadDlas",
+  "description": "Load classifications and dlas",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.dlaClassification.LoadDlas",
+  "properties": {
+    "createDlaClassification": {
+      "$ref": "createDlaClassification.json"
+    },
+    "createDlas": {
+      "type": "array",
+      "items": {
+        "$ref": "createDla.json"
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["createDlaClassification"],
+  "additionalProperties": false
+}

@@ -1,0 +1,177 @@
+{
+    "$id": "https://open-metadata.org/schema/entity/data/ClientCenterClient.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ClientCenterClient",
+    "description": "This schema defines te Client center client entities.",
+    "$comment": "@om-entity-type",
+    "type": "object",
+    "javaType": "org.openmetadata.schema.entity.data.ClientCenterClient",
+    "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+    "definitions": {
+      "clientReference": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Name that identifies the source of an external Client center client. Example `HealthCare.gov`.",
+            "type": "string"
+          },
+          "endpoint": {
+            "description": "Name that identifies the source of an external Client center client. Example `HealthCare.gov`.",
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "additionalProperties": false
+      },
+      "status": {
+        "type": "string",
+        "enum": ["Draft", "Approved", "Deprecated", "Rejected"]
+      }
+    },
+    "properties": {
+      "id": {
+        "description": "Unique identifier of a Client center client instance.",
+        "$ref": "../../type/basic.json#/definitions/uuid"
+      },
+      "name": {
+        "description": "Preferred name for the Client center client.",
+        "$ref": "../../type/basic.json#/definitions/entityName"
+      },
+      "displayName": {
+        "description": "Display Name that identifies this glossary.",
+        "type": "string"
+      },
+      "description": {
+        "description": "Description of the Client center client.",
+        "$ref": "../../type/basic.json#/definitions/markdown"
+      },
+      "fullName": {
+        "description": "Client's full name",
+        "type": "string"
+      },
+      "dateOfBirth": {
+        "description": "Client's date of birth.",
+        "type": "string"
+      },
+      "inn": {
+        "description": "client INN",
+        "type": "string"
+      },
+      "snils": {
+        "description": "Client's SNILS",
+        "type": "string"
+      },
+      "style": {
+        "$ref": "../../type/basic.json#/definitions/style"
+      },
+      "fullyQualifiedName": {
+        "description": "A unique name that identifies a Client center client. It captures name hierarchy of glossary of clients in the form of `glossaryName.parentclient.childclient`.",
+        "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+      },
+      "synonyms": {
+        "description": "Alternate names that are synonyms or near-synonyms for the Client center client.",
+        "type": "array",
+        "items": {
+          "$ref": "../../type/basic.json#/definitions/entityName"
+        }
+      },
+      "clientCenter": {
+        "description": "Client center that this client belongs to.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "parent": {
+        "description": "Parent Client center client that this client is child of. When `null` this client is the root client of the glossary.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "children": {
+        "description": "Other Client center clients that are children of this Client center client.",
+        "$ref": "../../type/entityReferenceList.json"
+      },
+      "relatedClients": {
+        "description": "Other Client center clients that are related to this Client center client.",
+        "$ref": "../../type/entityReferenceList.json"
+      },
+      "references": {
+        "description": "Link to a reference from an external Client Center.",
+        "type": "array",
+        "items": {
+          "$ref": "../../entity/data/clientCenterClient.json#/definitions/clientReference"
+        }
+      },
+      "version": {
+        "description": "Metadata version of the entity.",
+        "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+      },
+      "updatedAt": {
+        "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+        "$ref": "../../type/basic.json#/definitions/timestamp"
+      },
+      "updatedBy": {
+        "description": "User who made the update.",
+        "type": "string"
+      },
+      "href": {
+        "description": "Link to the resource corresponding to this entity.",
+        "$ref": "../../type/basic.json#/definitions/href"
+      },
+      "reviewers": {
+        "description": "User names of the reviewers for this glossary.",
+        "$ref": "../../type/entityReferenceList.json"
+      },
+      "owner": {
+        "description": "Owner of this Client center client.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "usageCount": {
+        "description": "Count of how many times this and it's children Client center clients are used as labels.",
+        "type": "integer"
+      },
+      "tags": {
+        "description": "Tags associated with this Client center client. These tags captures relationship of a Client center client with a tag automatically. As an example a Client center client 'User.PhoneNumber' might have an associated tag 'PII.Sensitive'. When 'User.Address' is used to label a column in a table, 'PII.Sensitive' label is also applied automatically due to Associated tag relationship.",
+        "type": "array",
+        "items": {
+          "$ref": "../../type/tagLabel.json"
+        },
+        "default": null
+      },
+      "changeDescription": {
+        "description": "Change that lead to this version of the entity.",
+        "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+      },
+      "status": {
+        "description": "Status of the Client center client.",
+        "$ref": "#/definitions/status"
+      },
+      "deleted": {
+        "description": "When `true` indicates the entity has been soft deleted.",
+        "type": "boolean",
+        "default": false
+      },
+      "provider" : {
+        "$ref": "../../type/basic.json#/definitions/providerType"
+      },
+      "disabled" : {
+        "description": "System glossary can't be deleted. Use this flag to disable them.",
+        "type": "boolean"
+      },
+      "mutuallyExclusive" : {
+        "description" : "Client center clients that are children of this client are mutually exclusive. When mutually exclusive is `true` only one client can be used to label an entity from this group. When mutually exclusive is `false`, multiple clients from this group can be used to label an entity.",
+        "type" : "boolean",
+        "default" : "false"
+      },
+      "extension": {
+        "description": "Entity extension data with custom attributes added to the entity.",
+        "$ref": "../../type/basic.json#/definitions/entityExtension"
+      },
+      "domain" : {
+        "description": "Domain the Client center client belongs to. When not set, the Glossary TErm inherits the domain from the Client center it belongs to.",
+        "$ref": "../../type/entityReference.json"
+      },
+      "votes" : {
+        "$ref": "../../type/votes.json"
+      }
+    },
+    "required": ["id", "name", "description", "clientCenter"],
+    "additionalProperties": false
+  }
+  

@@ -1,0 +1,10 @@
+{
+  "name": "Объявления",
+  "displayName": "Announcements KnowledgePanel",
+  "description": "Виджет «Объявления» показывает объявления от команд и пользователей, опубликованные в ресурсах данных.",
+  "entityType": "KnowledgePanel",
+  "fullyQualifiedName": "KnowledgePanel.Announcements",
+  "data": {
+    "gridSizes": ["small"]
+  }
+}

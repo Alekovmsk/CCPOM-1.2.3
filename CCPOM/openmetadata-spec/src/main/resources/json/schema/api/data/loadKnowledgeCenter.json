@@ -1,0 +1,23 @@
+{
+    "$id": "https://open-metadata.org/schema/api/data/loadKnowledgeCenter.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "loadKnowledgeCenter",
+    "description": "Load a KnowledgeCenter",
+    "type": "object",
+    "javaType": "org.openmetadata.schema.api.data.LoadKnowledgeCenter",
+    "properties": {
+        "createKnowledgeCenter": {
+            "$ref": "createKnowledgeCenter.json"
+        },
+        "createDocuments": {
+        "type": "array",
+        "items": {
+          "$ref": "createKnowledgeCenterDocument.json"
+        },
+        "minItems": 1
+        }
+    },
+    "required": ["createKnowledgeCenter"],
+    "additionalProperties": false
+}
+      

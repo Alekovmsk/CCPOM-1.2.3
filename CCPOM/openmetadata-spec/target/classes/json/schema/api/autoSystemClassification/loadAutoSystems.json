@@ -1,0 +1,22 @@
+{
+  "$id": "https://open-metadata.org/schema/api/autoSystemClassification/loadAutoSystems.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "loadAutoSystems",
+  "description": "Load classifications and autoSystems",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.autoSystemClassification.LoadAutoSystems",
+  "properties": {
+    "createAutoSystemClassification": {
+      "$ref": "createAutoSystemClassification.json"
+    },
+    "createAutoSystems": {
+      "type": "array",
+      "items": {
+        "$ref": "createAutoSystem.json"
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["createAutoSystemClassification"],
+  "additionalProperties": false
+}

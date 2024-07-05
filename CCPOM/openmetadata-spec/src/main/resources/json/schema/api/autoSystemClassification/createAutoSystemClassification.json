@@ -1,0 +1,33 @@
+{
+  "$id": "https://open-metadata.org/schema/api/autoSystemClassification/createAutoSystemClassification.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateAutoSystemClassificationRequest",
+  "description": "Create autoSystem classification request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.autoSystemClassification.CreateAutoSystemClassification",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+
+  "properties": {
+    "name": {
+      "$ref": "../../entity/autoSystemClassification/autoSystem.json#/definitions/autoSystemName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this autoSystem classification.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the autoSystem classification.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "provider": {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "mutuallyExclusive" : {
+      "description" : "AutoSystems under this autoSystem classification are mutually exclusive. When mutually exclusive is `true` the autoSystems from this autoSystem classification are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the autoSystems from this autoSystem classification are used to **categorize** an entity. An entity can be in multiple categories simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type" : "boolean",
+      "default" : "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

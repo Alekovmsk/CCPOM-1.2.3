@@ -1,0 +1,33 @@
+{
+  "$id": "https://open-metadata.org/schema/api/userEskClassification/createUserEskClassification.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateUserEskClassificationRequest",
+  "description": "Create userEsk classification request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.userEskClassification.CreateUserEskClassification",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+
+  "properties": {
+    "name": {
+      "$ref": "../../entity/userEskClassification/userEsk.json#/definitions/userEskName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this userEsk classification.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the userEsk classification.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "provider": {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "mutuallyExclusive" : {
+      "description" : "UserEsks under this userEsk classification are mutually exclusive. When mutually exclusive is `true` the userEsks from this userEsk classification are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the userEsks from this userEsk classification are used to **categorize** an entity. An entity can be in multiple categories simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type" : "boolean",
+      "default" : "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

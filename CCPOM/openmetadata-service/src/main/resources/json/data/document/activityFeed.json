@@ -1,0 +1,10 @@
+{
+  "name": "Лента активности",
+  "displayName": "Activity Feed KnowledgePanel",
+  "description": "Виджет «Лента активности» отображает ленту активности, упоминания и задачи, назначенные пользователю.",
+  "entityType": "KnowledgePanel",
+  "fullyQualifiedName": "KnowledgePanel.ActivityFeed",
+  "data": {
+    "gridSizes": ["large"]
+  }
+}

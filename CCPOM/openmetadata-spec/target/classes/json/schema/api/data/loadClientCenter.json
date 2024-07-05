@@ -1,0 +1,23 @@
+{
+    "$id": "https://open-metadata.org/schema/api/data/loadClientCenter.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "loadClientCenter",
+    "description": "Load a ClientCenter",
+    "type": "object",
+    "javaType": "org.openmetadata.schema.api.data.LoadClientCenter",
+    "properties": {
+        "createClientCenter": {
+            "$ref": "createClientCenter.json"
+        },
+        "createClients": {
+        "type": "array",
+        "items": {
+          "$ref": "createClientCenterClient.json"
+        },
+        "minItems": 1
+        }
+    },
+    "required": ["createClientCenter"],
+    "additionalProperties": false
+}
+      

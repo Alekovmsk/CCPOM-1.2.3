@@ -1,0 +1,22 @@
+{
+  "$id": "https://open-metadata.org/schema/api/spdClassification/loadSpds.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "loadSpds",
+  "description": "Load classifications and spds",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.spdClassification.LoadSpds",
+  "properties": {
+    "createSpdClassification": {
+      "$ref": "createSpdClassification.json"
+    },
+    "createSpds": {
+      "type": "array",
+      "items": {
+        "$ref": "createSpd.json"
+      },
+      "minItems": 1
+    }
+  },
+  "required": ["createSpdClassification"],
+  "additionalProperties": false
+}

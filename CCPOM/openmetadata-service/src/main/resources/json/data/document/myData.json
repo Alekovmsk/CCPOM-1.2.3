@@ -1,0 +1,10 @@
+{
+  "name": "Мои данные",
+  "displayName": "MyData KnowledgePanel",
+  "description": "Виджет \"Мои данные\" отображает список активов, принадлежащих пользователю или команде пользователя.",
+  "entityType": "KnowledgePanel",
+  "fullyQualifiedName": "KnowledgePanel.MyData",
+  "data": {
+    "gridSizes": ["small"]
+  }
+}

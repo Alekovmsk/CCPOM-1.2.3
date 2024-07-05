@@ -1,0 +1,96 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/domains/perimeter.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Perimeter",
+  "description": "A `Perimeter` contains domain's perimeter.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.domains.Perimeter",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "definitions": {
+    "entityEl": {
+      "type": "object",
+      "properties": {
+        "db": {
+          "description": "Entity db",
+          "type": "string"
+        },
+        "schema": {
+          "description": "Entity schema",
+          "type": "string"
+        },
+        "name": {
+          "description": "Entity name",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": {
+      "description": "Unique ID of the Perimeter",
+      "$ref": "../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "A unique name of the Perimeter",
+      "$ref": "../../type/basic.json#/definitions/entityName"
+    },
+    "fullyQualifiedName": {
+      "description": "FullyQualifiedName is `domain.perimeterName` or `sub-domain.perimeterName`.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Name used for display purposes. Example 'Marketing', 'Payments', etc.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Attribute.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "entityList" : {
+      "description": "List of entities in this domain perimeter",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/domains/perimeter.json#/definitions/entityEl"
+      }
+    },
+    "style": {
+      "$ref": "../../type/basic.json#/definitions/style"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to this entity.",
+      "$ref": "../../type/basic.json#/definitions/href"
+    },
+    "owner": {
+      "description": "Owner of this Perimeter.",
+      "$ref": "../../type/entityReference.json"
+    },
+    "experts": {
+      "description": "List of users who are experts for this Perimeter.",
+      "$ref": "../../type/entityReferenceList.json",
+      "default" : null
+    },
+    "domain": {
+      "description": "Domain or sub-domain to which this Perimeter belongs to.",
+      "$ref": "../../type/entityReference.json"
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+    }
+  },
+  "required": ["id", "name", "description"],
+  "additionalProperties": false
+}

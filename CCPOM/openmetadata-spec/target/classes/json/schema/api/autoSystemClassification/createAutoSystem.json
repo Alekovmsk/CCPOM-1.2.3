@@ -1,0 +1,443 @@
+{
+  "$id": "https://open-metadata.org/schema/api/autoSystemClassification/createAutoSystem.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateAutoSystemRequest",
+  "description": "Create autoSystem API request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.autoSystemClassification.CreateAutoSystem",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+
+  "properties": {
+    "autoSystemClassification": {
+      "description": "Name of the autoSystem classification that this autoSystem is part of.",
+      "$ref" : "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "parent": {
+      "description": "Fully qualified name of the parent autoSystem. When null, the term is at the root of the autoSystem classification.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "name": {
+      "$ref": "../../entity/autoSystemClassification/autoSystem.json#/definitions/autoSystemName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this autoSystem.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Unique name of the autoSystem classification",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "mainFunctionsAndPurpose": {
+      "description": "main functions and purpose",
+      "type": "string"
+    },
+    "numberInList": {
+      "description": "main functions and purpose",
+      "type": "string"
+    },
+    "fullNameOwner": {
+      "description": "fullNameOwner",
+      "type": "string"
+    },
+    "ordApointmentOwner": {
+      "description": "ORDApointmentOwner",
+      "type": "string"
+    },
+    "shortName": {
+      "description": "shortName",
+      "type": "string"
+    },
+    "softwareVersion": {
+      "description": "softwareVersion",
+      "type": "string"
+    },
+    "ownDevelopmentOrPurchasedSoftware": {
+      "description": "OwnDevelopmentOrPurchasedSoftware",
+      "type": "string"
+    },
+    "developerInformation": {
+      "description": "DeveloperInformation",
+      "type": "string"
+    },
+    "responsibleEmployees": {
+      "description": "ResponsibleEmployees",
+      "type": "string"
+    },
+    "workingHours": {
+      "description": "workingHours",
+      "type": "string"
+    },
+    "regulatoryEvents": {
+      "description": "regulatoryEvents",
+      "type": "string"
+    },
+    "supportContractor": {
+      "description": "supportContractor",
+      "type": "string"
+    },
+    "supportMode": {
+      "description": "supportMode",
+      "type": "string"
+    },
+    "startSupportDate": {
+      "description": "startSupportDate",
+      "type": "string"
+    },
+    "endSupportDate": {
+      "description": "endSupportDate",
+      "type": "string"
+    },
+    "supplier": {
+      "description": "supplier",
+      "type": "string"
+    },
+    "productManager": {
+      "description": "productManager",
+      "type": "string"
+    },
+    "productManagerPosition": {
+      "description": "productManagerPosition",
+      "type": "string"
+    },
+    "deputyProductManager": {
+      "description": "deputyProductManager",
+      "type": "string"
+    },
+    "trialStartDate": {
+      "description": "commissioningDate",
+      "type": "string"
+    },
+    "trialEndDate": {
+      "description": "commissioningEndDate",
+      "type": "string"
+    },
+    "modificationsInfo": {
+      "description": "modificationsInfo",
+      "type": "string"
+    },
+    "industrialStartDate": {
+      "description": "industrialStartDate",
+      "type": "string"
+    },
+    "industrialEndDate": {
+      "description": "industrialEndDate",
+      "type": "string"
+    },
+    "responsibleUsers": {
+      "description": "responsibleUsers",
+      "type": "string"
+    },
+    "installationKit": {
+      "description": "installationKit",
+      "type": "string"
+    },
+    "serverEquipmentNameIp": {
+      "description": "serverEquipmentNameIp",
+      "type": "string"
+    },
+    "serverSoftware": {
+      "description": "serverSoftware",
+      "type": "string"
+    },
+    "softwareAndHardwareComposition": {
+      "description": "softwareAndHardwareComposition",
+      "type": "string"
+    },
+    "db": {
+      "description": "dbms",
+      "type": "string"
+    },
+    "dbVersion": {
+      "description": "dbVersion",
+      "type": "string"
+    },
+    "clientPartEquioment": {
+      "description": "clientPartEquioment",
+      "type": "string"
+    },
+    "workplaceTypeAndSoftwareEnvVersion": {
+      "description": "workplaceTypeAndSoftwareEnvVersion",
+      "type": "string"
+    },
+    "lisOfOtherSystemConnections": {
+      "description": "lisOfOtherSystemConnections",
+      "type": "string"
+    },
+    "degreeOfConfidentiality": {
+      "description": "degreeOfConfidentiality",
+      "type": "string"
+    },
+    "criticalityClass": {
+      "description": "criticalityClass",
+      "type": "string"
+    },
+    "department": {
+      "description": "",
+      "type": "string"
+    },
+    "accompaniedByItBlock": {
+      "description": "Accompanied by IT block",
+      "type": "string"
+    },
+    "electronicCopyDoc": {
+      "description": "Electronic copy of the documentation",
+      "type": "string"
+    },
+    "projectConnection": {
+      "description": "Project connection",
+      "type": "string"
+    },
+    "note": {
+      "description": "Note",
+      "type": "string"
+    },
+    "color": {
+      "description": "Color",
+      "type": "string"
+    },
+    "asType": {
+      "description": "asType",
+      "type": "string"
+    },
+    "operationType": {
+      "description": "Type of operation",
+      "type": "string"
+    },
+    "basisForDevelopmentAndInputIntoPe": {
+      "description": "Basis for development, input into PE (OPE, OE)",
+      "type": "string"
+    },
+    "mc": {
+      "description": "MC",
+      "type": "string"
+    },
+    "thresholdTimeOfMinorFailure": {
+      "description": "Threshold time of minor failure (T)*, minutes",
+      "type": "string"
+    },
+    "criticalDayTime": {
+      "description": "Critical time of day (MSC)**",
+      "type": "string"
+    },
+    "roleModel": {
+      "description": "role model",
+      "type": "string"
+    },
+    "linkToUserList": {
+      "description": "Link to List of User Roles",
+      "type": "string"
+    },
+    "itRecoveryCoordinator": {
+      "description": "IT Recovery Coordinator",
+      "type": "string"
+    },
+    "administratorsInfo": {
+      "description": "Information about Administrators",
+      "type": "string"
+    },
+    "planningManager": {
+      "description": "Planning Manager",
+      "type": "string"
+    },
+    "registrationCertificate": {
+      "description": "Certificate of registration of a computer program",
+      "type": "string"
+    },
+    "businessRecoveryCoordinator": {
+      "description": "Business Recovery Coordinator",
+      "type": "string"
+    },
+    "orderForDecommissioning": {
+      "description": "Order (Act) for decommissioning of the system",
+      "type": "string"
+    },
+    "administrators": {
+      "description": "administrators",
+      "type": "string"
+    },
+    "registerLinkRfiInJiradev": {
+      "description": "Link to register RFI in JIRADEV",
+      "type": "string"
+    },
+    "devStrategicProspects": {
+      "description": "Strategic prospects for the development of AS in the Bank",
+      "type": "string"
+    },
+    "architect": {
+      "description": "Architect",
+      "type": "string"
+    },
+    "devHead": {
+      "description": "Head of Development",
+      "type": "string"
+    },
+    "testingManager": {
+      "description": "Testing Manager",
+      "type": "string"
+    },
+    "softwareRightsLevel": {
+      "description": "Software rights level",
+      "type": "string"
+    },
+    "approvedSourcingModel": {
+      "description": "Approved sourcing model",
+      "type": "string"
+    },
+    "durationSourcingModel": {
+      "description": "Duration of the sourcing model",
+      "type": "string"
+    },
+    "keyCompetencies": {
+      "description": "Key competencies",
+      "type": "string"
+    },
+    "allowedProportions": {
+      "description": "Allowed proportions",
+      "type": "string"
+    },
+    "usingInternetSign": {
+      "description": "Sign of using Internet technologies",
+      "type": "string"
+    },
+    "reportInformation0409070": {
+      "description": "Information for report 0409070",
+      "type": "string"
+    },
+    "supportHead": {
+      "description": "Head of support",
+      "type": "string"
+    },
+    "outsideRussianFederationAccess": {
+      "description": "Access to as outside the Russian Federation",
+      "type": "string"
+    },
+    "mnemonicCode": {
+      "description": "Mnemonic code",
+      "type": "string"
+    },
+    "signPd": {
+      "description": "PD sign",
+      "type": "string"
+    },
+    "confluenceSpaceLink": {
+      "description": "Link to space in Confluence",
+      "type": "string"
+    },
+    "ispdn": {
+      "description": "ISPDn",
+      "type": "string"
+    },
+    "availabilityOfSpecialOrBiometricPd": {
+      "description": "Availability of special or biometric PD",
+      "type": "string"
+    },
+    "decommissioningDate": {
+      "description": "System decommissioning date",
+      "type": "string"
+    },
+    "main": {
+      "description": "main",
+      "type": "string"
+    },
+    "archiveDate": {
+      "description": "Date of the archival storage period",
+      "type": "string"
+    },
+    "finalProductAllocation": {
+      "description": "Allocation of AS to the Final Product",
+      "type": "string"
+    },
+    "itCommunicationItSla": {
+      "description": "Communication with IT services in accordance with the concluded SLA",
+      "type": "string"
+    },
+    "rto": {
+      "description": "RTO",
+      "type": "string"
+    },
+    "rpo": {
+      "description": "RPO",
+      "type": "string"
+    },
+    "membershipInComplianceCircuits": {
+      "description": "Membership in compliance circuits",
+      "type": "string"
+    },
+    "dataAvailabilityonSpecialServiceClients": {
+      "description": "Availability of data on clients of special service categories",
+      "type": "string"
+    },
+    "creationProjectCode": {
+      "description": "Project code for the creation of speakers",
+      "type": "string"
+    },
+    "author": {
+      "description": "author",
+      "type": "string"
+    },
+    "addRecordIp": {
+      "description": "IP address of adding record",
+      "type": "string"
+    },
+    "addRecordDate": {
+      "description": "Date the record was added",
+      "type": "string"
+    },
+    "addRecordTime": {
+      "description": "addRecordDate",
+      "type": "string"
+    },
+    "userOfLastPostEdit": {
+      "description": "User of last post edit",
+      "type": "string"
+    },
+    "ipOfLastPostEdit": {
+      "description": "IP address of the last post edit",
+      "type": "string"
+    },
+    "recordLastEditDate": {
+      "description": "Date the record was last edited",
+      "type": "string"
+    },
+    "recordLastEditTime": {
+      "description": "Last edit time of entry",
+      "type": "string"
+    },
+    "recordAcceptanceUser": {
+      "description": "Record Acceptance User",
+      "type": "string"
+    },
+    "recordAcceptanceIp": {
+      "description": "IP address of record acceptance",
+      "type": "string"
+    },
+    "acceptanceRecordDate": {
+      "description": "Record acceptance date",
+      "type": "string"
+    },
+    "acceptanceRecordTime": {
+      "description": "Record acceptance time",
+      "type": "string"
+    },
+    "style": {
+      "$ref": "../../type/basic.json#/definitions/style"
+    },
+    "associatedAutoSystems": {
+      "description": "Fully qualified names of autoSystems associated with this autoSystem",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "provider": {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "mutuallyExclusive" : {
+      "description" : "Children autoSystems under this group are mutually exclusive. When mutually exclusive is `true` the autoSystems from this group are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the autoSystems from this group are used to **categorize** an entity. An entity can be in multiple categories simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type" : "boolean",
+      "default" : "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Подписки",
+  "displayName": "Following KnowledgePanel",
+  "description": "Виджет «Подписки» показывает все ресурсы, на которых подписан пользователь.",
+  "entityType": "KnowledgePanel",
+  "fullyQualifiedName": "KnowledgePanel.Following",
+  "data": {
+    "gridSizes": ["small"]
+  }
+}

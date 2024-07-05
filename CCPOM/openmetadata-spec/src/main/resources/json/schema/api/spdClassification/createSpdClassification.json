@@ -1,0 +1,33 @@
+{
+  "$id": "https://open-metadata.org/schema/api/spdClassification/createSpdClassification.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateSpdClassificationRequest",
+  "description": "Create spd classification request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.spdClassification.CreateSpdClassification",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+
+  "properties": {
+    "name": {
+      "$ref": "../../entity/spdClassification/spd.json#/definitions/spdName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this spd classification.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the spd classification.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "provider": {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "mutuallyExclusive" : {
+      "description" : "Spds under this spd classification are mutually exclusive. When mutually exclusive is `true` the spds from this spd classification are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the spds from this spd classification are used to **categorize** an entity. An entity can be in multiple categories simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type" : "boolean",
+      "default" : "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

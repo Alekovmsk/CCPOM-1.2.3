@@ -1,0 +1,179 @@
+{
+  "$id": "https://open-metadata.org/schema/api/dlaClassification/createDla.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateDlaRequest",
+  "description": "Create dla API request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.dlaClassification.CreateDla",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+
+  "properties": {
+    "dlaClassification": {
+      "description": "Name of the dla classification that this dla is part of.",
+      "$ref" : "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "parent": {
+      "description": "Fully qualified name of the parent dla. When null, the term is at the root of the dla classification.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "name": {
+      "$ref": "../../entity/dlaClassification/dla.json#/definitions/dlaName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this dla.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Unique name of the dla classification",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "docNumber": {
+      "description": "doc number",
+      "type": "string"
+    },
+    "docType": {
+      "description": "doc type",
+      "type": "string"
+    },
+    "conclusionDate": {
+      "description": "conclusion date",
+      "$ref": "../../type/basic.json#/definitions/date"
+    },
+    "expirationDate": {
+      "description": "expiration date",
+      "type": "string"
+    },
+    "validity": {
+      "description": "validity",
+      "type": "string"
+    },
+    "prolongation": {
+      "description": "prolongation",
+      "type" : "boolean",
+      "default" : "false"
+    },
+    "domainData": {
+      "description": "domain data",
+      "type": "string"
+    },
+    "consumer": {
+      "description": "consumer",
+      "type": "string"
+    },
+    "docStatus": {
+      "description": "status",
+      "type": "string"
+    },
+    "dataRegister": {
+      "description": "dataRegister",
+      "type": "string"
+    },
+    "owner": {
+      "description": "Data provider of this skd.",
+      "$ref": "../../type/entityReference.json",
+      "default": null
+    },
+    "dataManager": {
+      "description": "data manager",
+      "type": "string"
+    },
+    "dataSteward": {
+      "description": "data steward",
+      "type": "string"
+    },
+    "autoSourceSystem": {
+      "description": "auto source system",
+      "type" : "array",
+      "items": {
+        "$ref" : "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+      },
+      "default": null
+    },
+    "autoConsumerSystem": {
+      "description": "auto consumer system",
+      "type" : "array",
+      "items": {
+        "$ref" : "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+      },
+      "default": null
+    },
+    "publicationArea": {
+      "description": "Publication area",
+      "type": "string"
+    },
+    "cronUpdateData": {
+      "description": "Update data frequency",
+      "type": "string"
+    },
+    "cronDataAvailability": {
+      "description": "Availability data period",
+      "type": "string"
+    },
+    "cronDataActualization": {
+      "description": "Actualization data frequency",
+      "type": "string"
+    },
+    "dataProvisionIndicators": {
+      "description": "Data Provision Indicators",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/dlaClassification/dla.json#/definitions/indicator"
+      }
+    },
+    "dataQualityIndicators": {
+      "description": "Data Quality Indicators",
+      "type": "array",
+      "items": {
+        "$ref": "../../entity/dlaClassification/dla.json#/definitions/indicator"
+      }
+    },
+    "reportingType": {
+      "description": "Reporting Type",
+      "type": "string"
+    },
+    "reportingPeriodicity": {
+      "description": "Reporting Periodicity",
+      "type": "string"
+    },
+    "reportingReceiverRole": {
+      "description": "Reporting Receiver Role",
+      "type": "string"
+    },
+    "reportingResponsible": {
+      "description": "Reporting Person responsible for formation",
+      "type": "string"
+    },
+    "reportingHref": {
+      "description": "Reporting link",
+      "type": "string"
+    },
+    "incidenSigns": {
+      "description": "Signs of a mass/significant incident (optional)",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "additionalInformation": {
+      "description": "Additional information (optional)",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "style": {
+      "$ref": "../../type/basic.json#/definitions/style"
+    },
+    "associatedDlas": {
+      "description": "Fully qualified names of dlas associated with this dla",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "provider": {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "mutuallyExclusive" : {
+      "description" : "Children dlas under this group are mutually exclusive. When mutually exclusive is `true` the dlas from this group are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the dlas from this group are used to **categorize** an entity. An entity can be in multiple categories simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type" : "boolean",
+      "default" : "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

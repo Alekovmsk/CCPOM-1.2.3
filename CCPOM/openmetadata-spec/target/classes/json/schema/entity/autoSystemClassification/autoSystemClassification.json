@@ -1,0 +1,78 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/autoSystemClassification/autoSystemClassification.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AutoSystemClassification",
+  "description": "A `autoSystemClassification` entity contains hierarchical terms called autoSystems used for categorizing and classifying data assets and other entities.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.autoSystemClassification.AutoSystemClassification",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "properties": {
+    "id": {
+      "description": "Unique identifier of this entity instance.",
+      "$ref": "../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "$ref": "autoSystem.json#/definitions/autoSystemName"
+    },
+    "fullyQualifiedName": {
+      "description": "FullyQualifiedName same as `name`.",
+      "$ref": "../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this entity.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the autoSystem classification.",
+      "$ref": "../../type/basic.json#/definitions/markdown"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "termCount" : {
+      "description": "Total number of children autoSystem terms under this autoSystem classification. This includes all the children in the hierarchy.",
+      "type" : "integer",
+      "minimum": 0
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to the autoSystem classification.",
+      "$ref": "../../type/basic.json#/definitions/href"
+    },
+    "usageCount": {
+      "description": "Count of how many times the autoSystems from this autoSystem classification are used.",
+      "type": "integer"
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "provider" : {
+      "$ref": "../../type/basic.json#/definitions/providerType"
+    },
+    "disabled" : {
+      "description": "System classifications can't be deleted. Use this flag to disable them.",
+      "type": "boolean"
+    },
+    "mutuallyExclusive" : {
+      "description" : "autoSystems under this autoSystem classification are mutually exclusive. When mutually exclusive is `true` the autoSystems from this autoSystem classification are used to **classify** an entity. An entity can only be in one class - example, it can only be either `tier1` or `tier2` and not both. When mutually exclusive is `false`, the autoSystems from this autoSystem classification are used to **categorize** an entity. An entity have multiple autoSystems simultaneously - example a customer can be `newCustomer` and `atRisk` simultaneously.",
+      "type" : "boolean",
+      "default" : "false"
+    }
+  },
+  "required": ["name", "description"],
+  "additionalProperties": false
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Всего активов",
+  "displayName": "Total Assets KnowledgePanel",
+  "description": "Виджет \"Всего активов\" отображает рост активов данных в организации.",
+  "entityType": "KnowledgePanel",
+  "fullyQualifiedName": "KnowledgePanel.TotalAssets",
+  "data": {
+    "gridSizes": ["medium","large"]
+  }
+}
